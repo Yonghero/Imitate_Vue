@@ -1,6 +1,7 @@
 import vNode from '../../vDom/vNode.js';
 import getValue from '../../util/getValue.js';
 
+// v-for 实现
 export function vfor(vm, el, parent) {
     let instructions = el.getAttribute('v-for');
     let virtualNode = new vNode(el.nodeName, el, [], '', getVirtualNodeData(instructions)[2], parent, 0);
