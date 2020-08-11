@@ -19,7 +19,7 @@ export function renderMixin(Due) {
         renderTemplate(this, this._vNode);
     }
 }
-function renderTemplate(vm, vnode) {
+export function renderTemplate(vm, vnode) {
     // 文本节点才有模板需要替换
     if (vnode.nodeType === 3) {
         // 通过文本节点找模板
@@ -28,7 +28,7 @@ function renderTemplate(vm, vnode) {
         if (template) {
             let result = vnode.text;
             for (let i = 0; i < template.length; i++) {
-                let templateValue = getTemplateValue([vm._data,vnode.env], template[i]);
+                let templateValue = getTemplateValue([vm._data, vnode.env], template[i]);
                 if (templateValue) {
                     result = result.replace(`{{${template[i]}}}`, templateValue);
                 }
@@ -40,7 +40,7 @@ function renderTemplate(vm, vnode) {
         let template = vNode2template.get(vnode);
         if (template) {
             for (let i = 0; i < template.length; i++) {
-                let templateValue = getTemplateValue([vm._data,vnode.env], template[i]);
+                let templateValue = getTemplateValue([vm._data, vnode.env], template[i]);
                 if (templateValue) {
                     vnode.el.value = templateValue;
                 }
@@ -58,7 +58,7 @@ function getTemplateValue(objs, template) {
     if (!objs || objs.length === 0) return undefined;
     for (let i = 0; i < objs.length; i++) {
         let value = getValue(objs[i], template);
-        if(value != null) {
+        if (value != null) {
             return value;
         }
     }
@@ -70,11 +70,14 @@ export function prepareRender(vm, vnode) {
     if (vnode.nodeType === 3) {
         analysisTemplate(vnode);
     }
-    // 标签节点
-    if (vnode.nodeType === 1) {
-        for (let i = 0; i < vnode.children.length; i++) {
-            prepareRender(vm, vnode.children[i]);
-        }
+    // 虚拟节点 建立索引
+    if (vnode.nodeType == 0) {
+        setTemplate2vnode("{{" + vnode.data + "}}", vnode);
+        setVnode2template("{{" + vnode.data + "}}", vnode);
+    }
+
+    for (let i = 0; i < vnode.children.length; i++) {
+        prepareRender(vm, vnode.children[i])
     }
 }
 function analysisTemplate(vnode) {
@@ -113,3 +116,12 @@ function getTemplateName(template) {
 }
 export function getTemplate2vNode() { return template2vNode }
 export function getvNode2template() { return vNode2template; }
+
+export function getVNodebyTemp(temp) {
+    return template2vNode.get(temp);
+}
+
+export function clearMap(){
+    template2vNode.clear();
+    vNode2template.clear();
+}

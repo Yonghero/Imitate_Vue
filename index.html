@@ -18,6 +18,7 @@
                 年龄：{{item.age}}
             </li>
         </ul>
+        <img v-bind:src="imgSrc">
     </div>
     <script type="module">
         import Due from './index.js';
@@ -29,7 +30,8 @@
                     a: 1,
                     b: 2
                 },
-                list:[{name:'kity',age:8},{name:'jack',age:9}]
+                list:[{name:'kity',age:8},{name:'jack',age:9}],
+                imgSrc:'a.png'
             }
         })
     </script>

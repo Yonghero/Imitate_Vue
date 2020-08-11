@@ -1,5 +1,5 @@
 import { renderData } from "./render.js";
-
+import { rebuild } from './mount.js';
 export function constructProxy(vm, data, namespace) {
     let proxyObj = null;
     if (data instanceof Array) {
@@ -47,7 +47,8 @@ function defArrayAsObj(obj,func,namespace,vm){
         value(...args){
             let origin = arrProto[func];
             const result = origin.apply(this,args);
-            renderData(vm,getNameSpace(namespace,value))
+            rebuild(vm,getNameSpace(namespace,''));
+            // renderData(vm,getNameSpace(namespace,''))
             return result;
         }
     })
@@ -88,7 +89,11 @@ function dataProxy(vm, data, namespace) {
 function getNameSpace(namespace, nowProp) {
     if (namespace == null || namespace == '') {
         return nowProp;
-    } else {
+    } 
+    else if(nowProp == null || nowProp == ''){
+        return namespace;
+    }
+    else {
         return namespace + '.' + nowProp;
     }
 }

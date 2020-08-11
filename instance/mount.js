@@ -1,15 +1,17 @@
 import vNode from '../vDom/vNode.js';
 import { vmodel } from './garmmer/vmodel.js';
-import { setTemplate2vnode, setVnode2template } from './render.js';
+import { setTemplate2vnode, setVnode2template, getVNodebyTemp, prepareRender, renderTemplate,clearMap } from './render.js';
 import { vfor } from './garmmer/vfor.js';
 import { mergeAttr } from '../util/ObjectUtil.js'
+import { checkBind } from './garmmer/vbind.js';
+
 export function mount(vm, el) {
     let elm = document.getElementById(el);
-    let vnode = constructorVNode(vm, elm, '')   
+    let vnode = constructorVNode(vm, elm, '')
     return vnode;
 }
 
-export function constructorVNode(vm, el, parent) {  
+export function constructorVNode(vm, el, parent) {
     let vnode = analysisAttr(vm, el, parent);
     if (vnode == null) {
         let tag = el.tagName;
@@ -23,6 +25,7 @@ export function constructorVNode(vm, el, parent) {
         } else {
             vnode.env = mergeAttr(vnode.env, parent ? parent.env : {});
         }
+        checkBind(vm,vnode);
     }
     let childs = vnode.nodeType == 0 ? vnode.parent.el.childNodes : vnode.el.childNodes;
     // let childs = vnode.el.childNodes;
@@ -67,3 +70,17 @@ function analysisVModel(vm, vnode) {
     }
 }
 
+export function rebuild(vm, template) {
+    let virtualNode = getVNodebyTemp(template);
+    for (let i = 0; i < virtualNode.length; i++) {
+        virtualNode[i].parent.el.innerHTML = null;
+        virtualNode[i].parent.el.appendChild(virtualNode[i].el)
+        let result = constructorVNode(vm, virtualNode[i].el, virtualNode[i].parent);
+        virtualNode[i].parent.children = [result];
+        clearMap();
+        prepareRender(vm,vm._vNode);
+        renderTemplate(vm,vm._vNode);
+
+    }
+
+}

@@ -1,6 +1,6 @@
 import { constructProxy } from './proxy.js';
 import { mount } from './mount.js';
-import { prepareRender , getTemplate2vNode,getvNode2template} from './render.js';
+import { prepareRender } from './render.js';
 let uid = 0;
 export function initMixin(Due) {
     Due.prototype.init = function (options) {
