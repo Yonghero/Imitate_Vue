@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <input type="text" v-model='content'>
+        你好{{content}}
+        测试{{obj.a}}
+        <ul>
+            <li v-for='(item) in list'>
+                姓名：{{item.name}}
+                年龄：{{item.age}}
+            </li>
+        </ul>
+    </div>
+    <script type="module">
+        import Due from './index.js';
+        window.test = new Due({
+            el: 'root',
+            data: {
+                content: 'hello',
+                obj: {
+                    a: 1,
+                    b: 2
+                },
+                list:[{name:'kity',age:8},{name:'jack',age:9}]
+            }
+        })
+    </script>
+</body>
+
+</html>
