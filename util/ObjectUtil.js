@@ -1,4 +1,5 @@
 export function mergeAttr(obj1, obj2) {
+    
     if (obj1 == null) {
         return clone(obj2);
     }
@@ -43,3 +44,6 @@ function cloneArray(obj) {
     return result;
 }
 
+export function getEnvAttr(vm,vnode){
+    return mergeAttr(vm._data,vnode.env);
+}

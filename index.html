@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    .red {
+        color: red;
+    }
+
+    .blue {
+        color: blue;
+    }
+</style>
 
 <body>
     <div id="root">
@@ -19,6 +28,9 @@
             </li>
         </ul>
         <img v-bind:src="imgSrc">
+        <div v-bind:class="{red}">我的天啊</div>
+        <span v-bind:class="{blue: obj.a < 2}">我的天啊</span>
+
     </div>
     <script type="module">
         import Due from './index.js';
@@ -30,8 +42,8 @@
                     a: 1,
                     b: 2
                 },
-                list:[{name:'kity',age:8},{name:'jack',age:9}],
-                imgSrc:'a.png'
+                list: [{ name: 'kity', age: 8 }, { name: 'jack', age: 9 }],
+                imgSrc: 'a.png'
             }
         })
     </script>
