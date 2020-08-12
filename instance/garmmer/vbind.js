@@ -21,7 +21,6 @@ function vbind(vm, vnode, name, attr) {
         let str = attr.substring(1, attr.length - 1).trim();//解析出表达式的内容
         let expressionList = str.split(",");
         let result = analysisExpression(vm, vnode, expressionList);
-        console.log(result);
         vnode.el.setAttribute(k, result);
     } else {
         let v = getValue(vm._data, attr);

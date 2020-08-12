@@ -4,6 +4,7 @@ import { setTemplate2vnode, setVnode2template, getVNodebyTemp, prepareRender, re
 import { vfor } from './garmmer/vfor.js';
 import { mergeAttr } from '../util/ObjectUtil.js'
 import { checkBind } from './garmmer/vbind.js';
+import { checkOn } from './garmmer/von.js';
 
 export function mount(vm, el) {
     let elm = document.getElementById(el);
@@ -26,6 +27,7 @@ export function constructorVNode(vm, el, parent) {
             vnode.env = mergeAttr(vnode.env, parent ? parent.env : {});
         }
         checkBind(vm,vnode);
+        checkOn(vm,vnode);
     }
     let childs = vnode.nodeType == 0 ? vnode.parent.el.childNodes : vnode.el.childNodes;
     // let childs = vnode.el.childNodes;

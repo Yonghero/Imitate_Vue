@@ -18,9 +18,10 @@
 
 <body>
     <div id="root">
-        <input type="text" v-model='content'>
+        <input type="text" v-model='content' v-on:keydown='enter'>
         你好{{content}}
         测试{{obj.a}}
+        <div v-on:click="enter">点我</div>
         <ul>
             <li v-for='(item) in list'>
                 姓名：{{item.name}}
@@ -44,6 +45,11 @@
                 },
                 list: [{ name: 'kity', age: 8 }, { name: 'jack', age: 9 }],
                 imgSrc: 'a.png'
+            },
+            methods:{
+                enter(){
+                    console.log('enter'); 
+                }
             }
         })
     </script>
